@@ -1,25 +1,28 @@
 package com.example.demo.config.security;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class SecurityUserDetailsService implements UserDetailsService {
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
+import reactor.core.publisher.Mono;
 
-    private UserService userService;
+public class SecurityUserDetailsService implements ReactiveUserDetailsService {
 
-    public SecurityUserDetailsService(UserService userService) {
-        this.userService = userService;
-    }
+  private UserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User u = userService.findUser(username);
-        if(u == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return new SecurityUserDetails(u);
-    }
+  public SecurityUserDetailsService(UserService userService) {
+    this.userService = userService;
+  }
+
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User u = userService.findUser(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    return new SecurityUserDetails(u);
+  }
+
+  @Override
+  public Mono<UserDetails> findByUsername(String s) {
+    return Mono.just(loadUserByUsername(s));
+  }
 }

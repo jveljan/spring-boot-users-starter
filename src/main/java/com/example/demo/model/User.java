@@ -1,11 +1,15 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import sun.plugin.util.UserProfile;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "`USER`")
@@ -19,8 +23,8 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @ManyToMany
-    private List<Authority> authorities;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Authority> authorities = new ArrayList<>();
 
     public String getUsername() {
         return username;

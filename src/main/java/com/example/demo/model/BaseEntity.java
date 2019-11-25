@@ -3,6 +3,7 @@ package com.example.demo.model;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.util.Objects;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -28,12 +29,11 @@ public abstract class BaseEntity {
 
         BaseEntity that = (BaseEntity) o;
 
-        return id != null ? id.equals(that.id) : that.id == null;
-
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return Objects.hashCode(id);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.demo.config.web;
+package com.example.demo.config.security;
 
 import com.example.demo.model.User;
 import com.example.demo.model.exception.ItemNotFoundException;
