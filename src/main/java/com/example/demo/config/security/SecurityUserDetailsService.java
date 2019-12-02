@@ -17,7 +17,7 @@ public class SecurityUserDetailsService implements ReactiveUserDetailsService {
   }
 
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User u = userService.findUser(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    User u = userService.findUserAllowedToLogin(username).orElseThrow(() -> new UsernameNotFoundException(username));
     return new SecurityUserDetails(u);
   }
 

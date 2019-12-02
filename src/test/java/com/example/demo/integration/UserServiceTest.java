@@ -1,13 +1,12 @@
 package com.example.demo.integration;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.demo.dto.CreateUserReq;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
@@ -15,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by joco on 20.08.17.
@@ -33,7 +31,7 @@ public class UserServiceTest {
     assertNotNull(user);
     assertEquals("test", user.getUsername());
     assertNotEquals("test", user.getPassword());
-    assertEquals("ADMIN", user.getAuthorities().get(0).getName());
+    assertEquals("SUPER_ADMIN", user.getAuthorities().iterator().next().getName());
   }
 
   @Test
@@ -52,6 +50,6 @@ public class UserServiceTest {
   }
 
   private User createUser(String username) {
-    return userService.createUser(username, "xxx", Arrays.asList("ADMIN"));
+    return userService.createUser(CreateUserReq.of(username, "SUPER_ADMIN"));
   }
 }
